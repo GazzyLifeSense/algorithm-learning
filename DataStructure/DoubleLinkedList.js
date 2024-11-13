@@ -173,3 +173,17 @@ class DoubleLinkedList{
         console.log(str + 'null')
     }
 }
+
+/* TEST CODE */
+function test() {
+    const list = new MyLinkedList();
+    list.addLast(1);
+    list.addLast(2);
+    list.addLast(3);
+    list.addFirst(0);
+    list.add(2, 100);
+
+    list.display();
+    // 0 <-> 1 <-> 100 <-> 2 <-> 3 <-> null
+}
+test()

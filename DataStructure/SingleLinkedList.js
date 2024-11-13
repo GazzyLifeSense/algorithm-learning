@@ -191,3 +191,22 @@ class SingleLinkedList{
         console.log(str + 'null')
     }
 }
+
+/* TEST CODE */
+function test() {
+    const list = new MyLinkedList2();
+    list.addFirst(1);
+    list.addFirst(2);
+    list.addLast(3);
+    list.addLast(4);
+    list.add(2, 5);
+
+    console.log(list.removeFirst()); // 2
+    console.log(list.removeLast());  // 4
+    console.log(list.remove(1));      // 5
+
+    console.log(list.getFirst());     // 1
+    console.log(list.getLast());      // 3
+    console.log(list.get(1));         // 3
+}
+test()
