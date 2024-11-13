@@ -57,7 +57,7 @@ class MyArrayList{
         this.checkElementIndex(index)
         this.AutoResize()
 
-        const deletedVal = this.data[index]
+        const DeletedVal = this.data[index]
 
         for (let i = index + 1; i < this.size; i++){
             this.data[i - 1] = this.data[i]
@@ -65,7 +65,7 @@ class MyArrayList{
         this.data[this.size - 1] = null
         this.size--
 
-        return deletedVal
+        return DeletedVal
     }
 
     removeFirst() {
@@ -116,7 +116,7 @@ class MyArrayList{
 
     checkPositionIndex(index) {
         if (!this.isValidPositionIndex(index)) {
-            throw new Error(`Index Out of Boundary! (Index: ${index}, Size: ${this.size})`)
+            throw new Error(`Invalid Position Index! (Index: ${index}, Size: ${this.size})`)
         }
     }
 }
