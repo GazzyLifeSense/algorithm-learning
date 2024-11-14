@@ -6,6 +6,7 @@
  * ②虚拟头尾节点
  * 
  */
+export { Node, DoubleLinkedList }
 class Node{
     constructor(val) {
         this.val = val
@@ -120,7 +121,7 @@ class DoubleLinkedList{
 
         DeletedNode.prev = DeletedNode.next = null
         this.size--
-        return DeletedNode
+        return DeletedNode.val
     }
 
     removeFirst() {
@@ -176,7 +177,7 @@ class DoubleLinkedList{
 
 /* TEST CODE */
 function test() {
-    const list = new MyLinkedList();
+    const list = new DoubleLinkedList();
     list.addLast(1);
     list.addLast(2);
     list.addLast(3);
