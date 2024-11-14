@@ -194,7 +194,7 @@ class SingleLinkedList{
 
 /* TEST CODE */
 function test() {
-    const list = new MyLinkedList2();
+    const list = new SingleLinkedList();
     list.addFirst(1);
     list.addFirst(2);
     list.addLast(3);
