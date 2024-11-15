@@ -11,6 +11,7 @@
  * 
  * ④自动扩缩容
  */
+export { CycleArray }
 class CycleArray{
     constructor(size = 1) {
         this.size = size
