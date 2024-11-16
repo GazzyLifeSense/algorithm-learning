@@ -20,6 +20,23 @@ class SingleLinkedList{
         this.size = 0
     }
 
+    [Symbol.iterator]() {
+        let index = 0
+        return {
+            next: () => {
+                if (index < this.size) {
+                    return { done: false, value: this.get(index++) }
+                } else {
+                    return { done: true, value: undefined }
+                }
+            },
+            return: () => {
+                //监听迭代器停止
+                return { done: true, value: undefined }
+            }
+        }
+    }
+
     // 查
     getNode(index) {
         this.checkElementIndex(index)
