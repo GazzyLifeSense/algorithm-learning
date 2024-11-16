@@ -1,12 +1,12 @@
 /*
- * 链表实现双端队列
+ * 数组实现双端队列
  *
- * ①为了实现双端插入删除的操作的时间复杂度都为O(1)，需要使用双链表
+ * ①为了实现双端插入删除的操作的时间复杂度都为O(1)，需要使用环形数组
  */
-import { DoubleLinkedList } from "./DoubleLinkedList";
-class LinkedDeque {
+import { CycleArray } from "../Array/CycleArray"
+class ArrayDeque {
     constructor() {
-        this.deque = new DoubleLinkedList();
+        this.deque = new CycleArray()
     }
 
     // 从队头插入元素，时间复杂度 O(1)
@@ -41,7 +41,7 @@ class LinkedDeque {
 
 /* TEST CODE */
 function test() {
-    const myDeque = new LinkedDeque();
+    const myDeque = new ArrayDeque();
 
     myDeque.addFirst(1);
     myDeque.addFirst(2);

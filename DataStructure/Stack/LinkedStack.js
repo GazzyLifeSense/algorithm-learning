@@ -1,7 +1,7 @@
 /*
  * 链表实现栈
  */
-import { DoubleLinkedList } from "./DoubleLinkedList.js"
+import { DoubleLinkedList } from "../LinkedList/DoubleLinkedList";
 
 class LinkedStack {
     constructor() {

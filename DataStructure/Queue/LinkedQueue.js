@@ -1,12 +1,12 @@
 /*
- * 数组实现队列
- *
- * ①为了实现队尾插入、队头删除的操作的时间复杂度都为O(1)，需要使用环形数组
+ * 链表实现队列
  */
-import { CycleArray } from './CycleArray.js'
-class ArrayQueue {
+
+import { DoubleLinkedList } from "../LinkedList/DoubleLinkedList";
+
+class LinkedQueue {
     constructor() {
-        this.list = new CycleArray()
+        this.list = new DoubleLinkedList()
     }
 
     // 向队尾插入元素，时间复杂度 O(1)
@@ -29,3 +29,16 @@ class ArrayQueue {
         return this.list.size
     }
 }
+
+/* TEST CODE */
+function test() {
+    const queue = new LinkedQueue();
+    queue.push(1);
+    queue.push(2);
+    queue.push(3);
+    console.log(queue.peek()); // 1
+    console.log(queue.pop()); // 1
+    console.log(queue.pop()); // 2
+    console.log(queue.peek()); // 3
+}
+test()
