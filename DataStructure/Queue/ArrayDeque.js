@@ -1,7 +1,7 @@
 /*
- * 数组实现双端队列
+ * 环形数组实现双端队列
  *
- * ①为了实现双端插入删除的操作的时间复杂度都为O(1)，需要使用环形数组
+ * Ⅰ 为了实现双端增删的操作时间复杂度都为O(1)，需要使用环形数组
  */
 import { CycleArray } from "../Array/CycleArray"
 class ArrayDeque {

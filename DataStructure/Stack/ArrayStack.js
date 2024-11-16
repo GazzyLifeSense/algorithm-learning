@@ -1,7 +1,7 @@
 /*
  * 数组实现栈
  * 
- * ①以数组尾部为栈顶
+ * Ⅰ 以数组尾部为栈顶
  */
 class ArrayStack {
     constructor() {

@@ -1,5 +1,7 @@
 /*
- * 链表实现栈
+ * 双链表实现栈
+ *
+ * 把双链表的头部或尾部作为栈顶，栈顶增删元素的时间复杂度都为O(1)
  */
 import { DoubleLinkedList } from "../LinkedList/DoubleLinkedList";
 

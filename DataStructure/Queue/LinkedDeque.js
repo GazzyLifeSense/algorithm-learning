@@ -1,7 +1,7 @@
 /*
- * 链表实现双端队列
+ * 双链表实现双端队列
  *
- * ①为了实现双端插入删除的操作的时间复杂度都为O(1)，需要使用双链表
+ * Ⅰ 为了实现双端增删的操作时间复杂度都为O(1)，需要使用双链表
  */
 import { DoubleLinkedList } from "../LinkedList/DoubleLinkedList";
 class LinkedDeque {

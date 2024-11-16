@@ -1,7 +1,9 @@
 /*
  * 拉链法实现哈希表
  *
- * Ⅰ使用单链表节点，存储 key-value 对
+ * Ⅰ 使用单链表节点，存储 key-value 对
+ * 
+ * Ⅱ 发生哈希冲突，后来者插入索引处单链表头部
  */
 import { SingleLinkedList } from '../LinkedList/SingleLinkedList'
 class KVNode{
