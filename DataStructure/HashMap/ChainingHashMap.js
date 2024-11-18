@@ -39,9 +39,7 @@ class ChainingHashMap {
     // 添加 key -> val 键值对
     // 如果键 key 已存在，则将值修改为 val
     put(key, val) {
-        if (key == null) {
-            throw new Error("key is null");
-        }
+        if (key === undefined) throw new Error("key cannot be undefined!")
 
         const list = this.table[this.hash(key)];
         // 如果 key 之前存在，则修改对应的 val
@@ -65,9 +63,7 @@ class ChainingHashMap {
 
     // 删除 key 和对应的 val
     remove(key) {
-        if (key == null) {
-            throw new Error("key is null");
-        }
+        if (key === undefined) throw new Error("key cannot be undefined!")
 
         const list = this.table[this.hash(key)];
         // 如果 key 存在，则删除，size 减少
@@ -89,9 +85,7 @@ class ChainingHashMap {
 
     // 返回 key 对应的 val，如果 key 不存在，则返回 null
     get(key) {
-        if (key == null) {
-            throw new Error("key is null");
-        }
+        if (key === undefined) throw new Error("key cannot be undefined!")
 
         const list = this.table[this.hash(key)];
         for (let node of list) {

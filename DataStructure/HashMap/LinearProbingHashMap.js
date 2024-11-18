@@ -9,6 +9,8 @@
  *      ①把后面与被删除元素索引冲突的元素往前挪
  *      ②使用占位符标记被删entry，可以避免频繁数据迁移，不适用于频繁增删的场景
  */
+export { LinearProbingHashMap, LinearProbingHashMapWithPlaceholder}
+
 class KVNode{
     constructor(key, value) {
         this.key = key
@@ -33,18 +35,20 @@ class LinearProbingHashMap{
 
     // 增、改
     put(key, val) {
-        if (key == null) throw new Error("key is null!")
+        if (key === undefined) throw new Error("key cannot be undefined!")
         // 扩容
         if (this.size == this.length()) this.resize(this.length() * 2)
         
         const index = this.findKeyIndex(key)
+        // entry不存在
+        if (this.table[index] == null) this.size++
+        
         this.table[index] = new KVNode(key, val)
-        this.size++
     }
 
     // 删
     remove(key) {
-        if (key == null) throw new Error("key is null!")
+        if (key === undefined) throw new Error("key cannot be undefined!")
 
         let index = this.findKeyIndex(key)
         const DeletedEntry = this.table[index]
@@ -70,7 +74,7 @@ class LinearProbingHashMap{
 
     // 查
     get(key) {
-        if (key == null) throw new Error("key is null!")
+        if (key === undefined) throw new Error("key cannot be undefined!")
         
         const index = this.findKeyIndex(key)
         return this.table[index]?.value ?? null
@@ -83,7 +87,7 @@ class LinearProbingHashMap{
         let index = this.hash(key)
 
         while (this.table[index] != null) {
-            if (this.table[index].key == key) {
+            if (this.table[index].key === key) {
                 return index
             }
             index = (index + 1) % this.length()
@@ -116,12 +120,12 @@ class LinearProbingHashMap{
         const newMap = new LinearProbingHashMap(newCap)
         for (let i = 0; i < this.length(); i++){
             const entry = this.table[i]
-            if (entry.key != null) {
+            if (entry != null) {
                 newMap.put(entry.key, entry.value)
             }
         }
 
-        this.table = newMap
+        this.table = newMap.table
     }
 }
 
@@ -143,7 +147,7 @@ class LinearProbingHashMapWithPlaceholder{
 
     // 增、改
     put(key, val) {
-        if (key == null) throw new Error("key is null!")
+        if (key === undefined) throw new Error("key cannot be undefined!")
         // 扩容 （仅当有效entry数量 = 数组长度时扩容，因为没有空位时会优先替换占位符的位置）
         if (this.size == this.length()) this.resize(this.length() * 2)
         
@@ -165,7 +169,7 @@ class LinearProbingHashMapWithPlaceholder{
 
     // 删
     remove(key) {
-        if (key == null) throw new Error("key is null!")
+        if (key === undefined) throw new Error("key cannot be undefined!")
 
         let index = this.findKeyIndex(key)
         // key不存在
@@ -182,7 +186,7 @@ class LinearProbingHashMapWithPlaceholder{
 
     // 查
     get(key) {
-        if (key == null) throw new Error("key is null!")
+        if (key === undefined) throw new Error("key cannot be undefined!")
         
         const index = this.findKeyIndex(key)
         return index != -1 ? this.table[index].value : null
@@ -195,8 +199,8 @@ class LinearProbingHashMapWithPlaceholder{
         for (let i = this.hash(key), step = 0; this.table[i] != null; i = (i + 1) % this.length()){
             const entry = this.table[i]
             // 遇到占位符直接跳过
-            if (entry == this.DELETED) continue
-            if (entry.key == key) return i
+            if (entry === this.DELETED) continue
+            if (entry.key === key) return i
             if(++step == this.length()) return -1
         }
 
