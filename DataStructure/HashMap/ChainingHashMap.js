@@ -143,8 +143,6 @@ class ChainingHashMap {
         // 将当前 HashMap 的底层 table 换掉
         this.table = newMap.table;
     }
-
-    
 }
 
 /* TEST CODE */
