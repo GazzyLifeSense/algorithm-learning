@@ -3,7 +3,7 @@
  *
  * Ⅰ 为了实现双端增删的操作时间复杂度都为O(1)，需要使用双链表
  */
-import { DoubleLinkedList } from "../LinkedList/DoubleLinkedList";
+import { DoubleLinkedList } from "../LinkedList/DoubleLinkedList.js";
 class LinkedDeque {
     constructor() {
         this.deque = new DoubleLinkedList();

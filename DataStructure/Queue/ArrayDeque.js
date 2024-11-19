@@ -3,7 +3,7 @@
  *
  * Ⅰ 为了实现双端增删的操作时间复杂度都为O(1)，需要使用环形数组
  */
-import { CycleArray } from "../Array/CycleArray"
+import { CycleArray } from "../Array/CycleArray.js"
 class ArrayDeque {
     constructor() {
         this.deque = new CycleArray()

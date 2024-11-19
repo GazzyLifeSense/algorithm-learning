@@ -193,7 +193,7 @@ function test() {
     list.addFirst(0);
     list.add(2, 100);
 
-    list.display();
+    list.show();
     // 0 <-> 1 <-> 100 <-> 2 <-> 3 <-> null
 }
 test()

@@ -4,7 +4,7 @@
  * Ⅰ 不允许重复（底层是哈希表，用key存储元素，value统一是PRESENT), key可以为null
  * 
  */
-import { LinearProbingHashMap } from "./LinearProbingHashMap"
+import { LinearProbingHashMap } from "./LinearProbingHashMap.js"
 
 class HashSet{
     constructor(initCap) {

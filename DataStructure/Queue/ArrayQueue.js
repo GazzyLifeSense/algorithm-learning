@@ -3,7 +3,7 @@
  *
  * Ⅰ 为了实现队尾插入、队头删除的操作时间复杂度都为O(1)，需要使用环形数组
  */
-import { CycleArray } from "../Array/CycleArray"
+import { CycleArray } from "../Array/CycleArray.js"
 class ArrayQueue {
     constructor() {
         this.list = new CycleArray()

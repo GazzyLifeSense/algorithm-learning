@@ -14,6 +14,7 @@
  *      对外不可见，如get(index)都是从真实节点开始计算索引
  * 
  */
+export { SingleLinkedList }
 
 // 单链表节点
 class Node{
