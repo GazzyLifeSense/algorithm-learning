@@ -196,4 +196,3 @@ function test() {
     list.show();
     // 0 <-> 1 <-> 100 <-> 2 <-> 3 <-> null
 }
-test()

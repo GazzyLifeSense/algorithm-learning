@@ -144,4 +144,3 @@ function test() {
         console.log(arr.get(i));
     }
 }
-test()

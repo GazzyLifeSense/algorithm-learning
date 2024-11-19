@@ -261,4 +261,3 @@ function test() {
     console.log(map.get(20))
     console.log(map.get(30))
 }
-test()

@@ -43,4 +43,3 @@ function test() {
     console.log(queue.pop()); // 2
     console.log(queue.peek()); // 3
 }
-test()

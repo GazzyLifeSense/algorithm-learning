@@ -53,4 +53,3 @@ function test() {
     console.log(myDeque.peekFirst()); // 1
     console.log(myDeque.peekLast()); // 3
 }
-test()

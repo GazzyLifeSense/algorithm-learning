@@ -36,4 +36,3 @@ function test() {
     myHashSet.remove({})
     console.log(myHashSet.contains({}))
 }
-test()

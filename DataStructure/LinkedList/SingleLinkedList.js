@@ -237,4 +237,3 @@ function test() {
     console.log(list.getLast());      // 3
     console.log(list.get(1));         // 3
 }
-test()

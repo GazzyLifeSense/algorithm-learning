@@ -124,4 +124,3 @@ function test() {
     arr.removeLast()
     arr.removeLast()
 }
-test()

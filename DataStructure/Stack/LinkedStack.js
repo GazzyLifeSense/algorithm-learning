@@ -41,4 +41,3 @@ function test() {
     console.log(stack.pop()); // 2
     console.log(stack.peek()); // 1
 }
-test()
