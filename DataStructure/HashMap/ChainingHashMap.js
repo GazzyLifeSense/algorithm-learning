@@ -5,7 +5,9 @@
  * 
  * Ⅱ 发生哈希冲突，后来者插入索引处单链表头部
  */
-import { SingleLinkedList } from '../LinkedList/SingleLinkedList'
+import { SingleLinkedList } from '../LinkedList/SingleLinkedList.js'
+export { ChainingHashMap }
+
 class KVNode{
     constructor(key, value) {
         this.key = key
@@ -50,7 +52,7 @@ class ChainingHashMap {
             }
         }
         // 如果 key 之前不存在，则插入链表头部，size 增加
-        list.addFirst(new KVNode(key, val));
+        list.addFirst(this.newNode(key, val));
         this.size++;
 
         // 如果元素数量超过了负载因子，进行扩容
@@ -66,19 +68,23 @@ class ChainingHashMap {
         if (key === undefined) throw new Error("key cannot be undefined!")
 
         const list = this.table[this.hash(key)];
-        // 如果 key 存在，则删除，size 减少
-        for (let i = 0; i < list.size; i++) {
-            if (list.get(i).key === key) {
-                list.remove(i);
-                this.size--;
+        // 遍历链表查询key是否存在
+        let cur = list.head.next, index = 0
+        while (cur != null) {
+            if (cur.val.key === key) {
+                const DeletedNode = list.remove(index).val
+                this.size--
 
                 // 缩容，当负载因子小于 0.125 时，缩容
                 if (this.size <= this.table.length / 8) {
                     this.resize(Math.floor(this.table.length / 4));
                 }
-                return;
+                return DeletedNode;
             }
+            index++
         }
+
+        return DeletedNode
     }
 
     /***** 查 *****/
@@ -98,7 +104,7 @@ class ChainingHashMap {
 
     // 返回所有 key
     keys() {
-        keys = [];
+        const keys = [];
         for (let list of this.table) {
             for (let node of list) {
                 keys.push(node.key);
@@ -137,6 +143,10 @@ class ChainingHashMap {
         // 将当前 HashMap 的底层 table 换掉
         this.table = newMap.table;
     }
+
+    newNode(key, value) {
+        return new KVNode(key, value)
+    }
 }
 
 /* TEST CODE */
@@ -151,9 +161,9 @@ function test() {
     map.put(1, 100);
     console.log(map.get(1)); // 100
 
-    map.remove(2);
+    console.log(map.hash(2)) // 2
+    console.log(map.table[2].head.next.val === map.remove(2)); // true
     console.log(map.get(2)); // null
 
     console.log(map.keys()); // [1, 3]（顺序可能不同）
 }
-test()
