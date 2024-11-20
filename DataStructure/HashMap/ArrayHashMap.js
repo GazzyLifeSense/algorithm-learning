@@ -53,4 +53,3 @@ function test() {
     console.log(map.randomKey())
     console.log(map.randomKey())
 }
-test()
