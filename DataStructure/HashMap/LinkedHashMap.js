@@ -61,4 +61,3 @@ function test() {
     map.remove(4)
     console.log(map.keys())
 }
-test()

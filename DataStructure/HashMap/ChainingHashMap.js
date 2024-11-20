@@ -68,11 +68,12 @@ class ChainingHashMap {
         if (key === undefined) throw new Error("key cannot be undefined!")
 
         const list = this.table[this.hash(key)];
+        let DeletedNode
         // 遍历链表查询key是否存在
         let cur = list.head.next, index = 0
-        while (cur != null) {
+        while (cur != list.tail) {
             if (cur.val.key === key) {
-                const DeletedNode = list.remove(index).val
+                DeletedNode = list.remove(index).val
                 this.size--
 
                 // 缩容，当负载因子小于 0.125 时，缩容
@@ -81,6 +82,7 @@ class ChainingHashMap {
                 }
                 return DeletedNode;
             }
+            cur = cur.next
             index++
         }
 
