@@ -15,7 +15,7 @@ import { BTree } from "./Tree.js"
 //   3   2  4  6
 //  / \   \
 // 3  -2   1
-// 获取所有路径及最短路径距离
+// DFS获取所有路径及最短路径距离
 function DFSShortestPath(root) {
     let shortest = Infinity, depth = 0
     const allPath = [], curPath = []
@@ -42,14 +42,54 @@ function DFSShortestPath(root) {
     return { allPath, shortest }
 }
 
+class State{
+    constructor(node, path) {
+        this.node = node
+        this.path = path
+        // 用于可视化
+        this.val = `${node.val}, path:${path.join('->')}`
+    }
+}
+// BFS获取所有路径及最短路径距离（借助State类保存节点的路径）
 function BFSShortestPath(root) {
-    if(root == null) return
+    if (root == null) return
+    let shortest = Infinity
+    const q = [], allPath = []
+    q.push(new State(root, [root.val]))
+
+    // 记录当前层数
+    var depth = 1
+    while (q.length) {
+        // 从队列中依次取出当前层的节点
+        const length = q.length
+        for (let i = 0; i < length; i++){
+            const cur = q.shift()
+            const node = cur.node, path = cur.path
+            // 若当前节点为叶子节点，记录路径
+            if (node.left == null && node.right == null) {
+                allPath.push(path)
+                shortest = Math.min(shortest, path.length)
+            }
+            // 将当前节点的左右节点进入队列，供下一层遍历使用
+            if(node.left) q.push(new State(node.left, [...path, node.left.val]))
+            if (node.right) q.push(new State(node.right, [...path, node.right.val]))
+        }
+        // 如果只需要查找最短路径，当当前层遍历完毕且出现最短路径时即可返回结果
+        console.log(`层数：${depth}； 当前最短路径：${shortest}`)
+        depth++
+    }
+
+    return { allPath, shortest }
 }
 
 /* TEST CODE */
 function test() {
     const btree = new BTree([10, 5, -3, 3, 2, 4, 6, 3, -2, null, 1])
-    const res = DFSShortestPath(btree.root)
-    console.log('所有路径：', res.allPath)
-    console.log(`最短路径距离为：${res.shortest}`)
+    const DFSres = DFSShortestPath(btree.root)
+    console.log('所有路径：', DFSres.allPath)
+    console.log(`最短路径距离为：${DFSres.shortest}`)
+
+    const BFSres = BFSShortestPath(btree.root)
+    console.log('所有路径：', BFSres.allPath)
+    console.log(`最短路径距离为：${BFSres.shortest}`)
 }
