@@ -38,7 +38,7 @@
  *       / \   \
  *      1   5   10
  */
-export { TreeNode, BTree, DFS, BFS }
+export { TreeNode, BinaryTree, DFS, BFS }
 
 // 最常见的二叉树就是类似链表那样的链式存储结构，每个二叉树节点有指向左右子节点的指针
 class TreeNode{
@@ -49,7 +49,7 @@ class TreeNode{
     }
 }
 
-class BTree{
+class BinaryTree{
     constructor(arr) {
         this.root = null
         this.createRoot(arr)
@@ -132,8 +132,10 @@ function BFS(root) {
             if (cur.right) q.push(cur.right)
         }
         
-        depth++
+        if(q.length) depth++
     }
+    
+    return depth
 }
 
 /* TEST CODE */
@@ -155,8 +157,7 @@ function test() {
     // 4   5   6
     // 前序：124356 、中序：421536、后序：425631
 }
-
 function test1() {
-    const btree = new BTree([1, 2, 3, 4, null, 5, 6])
+    const btree = new BinaryTree([1, 2, 3, 4, null, 5, 6])
     DFS(btree.root)
 }

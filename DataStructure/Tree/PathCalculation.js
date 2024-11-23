@@ -7,7 +7,7 @@
  * BFS 常用于获取最短路径
  */
 
-import { BTree } from "./Tree.js"
+import { BinaryTree } from "./BinaryTree.js"
 //       10
 //      /  \
 //     5    -3
@@ -84,12 +84,12 @@ function BFSShortestPath(root) {
 
 /* TEST CODE */
 function test() {
-    const btree = new BTree([10, 5, -3, 3, 2, 4, 6, 3, -2, null, 1])
-    const DFSres = DFSShortestPath(btree.root)
+    const binaryTree = new BinaryTree([10, 5, -3, 3, 2, 4, 6, 3, -2, null, 1])
+    const DFSres = DFSShortestPath(binaryTree.root)
     console.log('所有路径：', DFSres.allPath)
     console.log(`最短路径距离为：${DFSres.shortest}`)
 
-    const BFSres = BFSShortestPath(btree.root)
+    const BFSres = BFSShortestPath(binaryTree.root)
     console.log('所有路径：', BFSres.allPath)
     console.log(`最短路径距离为：${BFSres.shortest}`)
 }
