@@ -192,4 +192,39 @@ function combinationSum2(candidates, target) {
     return res
 }
 // [14,6,25,9,30,20,33,34,28,30,16,12,31,9,9,12,34,16,25,32,8,7,30,12,33,20,21,29,24,17,27,34,11,17,30,6,32,21,27,17,16,8,24,12,12,28,11,33,10,32,22,13,34,18,12] 27
-console.log(combinationSum2([10,1,2,7,6,1,5], 8))
+// console.log(combinationSum2([10, 1, 2, 7, 6, 1, 5], 8))
+
+// 例 47.全排列Ⅱ https://leetcode.cn/problems/permutations-ii （元素可重复但不可重复选）
+function permuteUnique(nums) {
+    const res = [], used = new Array(nums.length).fill(false), track = []
+
+    // 排序，将相同数字汇聚
+    nums.sort((a, b) => a - b)
+
+    function backtrack() {
+        if (track.length == nums.length) {
+            res.push([...track])
+            return
+        }
+        // 遍历数组，若未使用过则加入路径
+        for (let i = 0; i < nums.length; i++){
+            // 剪枝（当前节点数字与上一索引数字相同但上一个索引数字没有使用，说明相邻节点即将重复）
+            if(i > 0 && nums[i] == nums[i-1] && used[i-1] == false) continue
+            if (used[i] == false) {
+                // 做选择
+                used[i] = true
+                track.push(nums[i])
+                // 进入下一层
+                backtrack()
+                // 取消选择
+                track.pop()
+                used[i] = false
+            }
+            
+        }
+    }
+
+    backtrack()
+    return res
+}
+console.log(permuteUnique([1,2,2]))
