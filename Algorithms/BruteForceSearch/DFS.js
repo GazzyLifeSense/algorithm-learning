@@ -209,6 +209,7 @@ function permuteUnique(nums) {
         // 遍历数组，若未使用过则加入路径
         for (let i = 0; i < nums.length; i++){
             // 剪枝（当前节点数字与上一索引数字相同但上一个索引数字没有使用，说明相邻节点即将重复）
+            // 也可记录同层的前一节点的值进行剪枝（for外面记录声明preNum，插入track同时记录preNum，若当前节点数字与前一节点数字相同则剪枝)
             if(i > 0 && nums[i] == nums[i-1] && used[i-1] == false) continue
             if (used[i] == false) {
                 // 做选择
@@ -227,4 +228,4 @@ function permuteUnique(nums) {
     backtrack()
     return res
 }
-console.log(permuteUnique([1,2,2]))
+// console.log(permuteUnique([1,1,3]))
