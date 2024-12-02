@@ -1,4 +1,37 @@
-// 例 78.子集 https://leetcode.cn/problems/subsets/ （元素唯一且不可重复选）
+/*
+ * DFS回溯算法
+ *
+ * Ⅰ 本质就是穷举所有解, 遍历一颗决策树
+ * 
+ * Ⅱ 纯暴力穷举，复杂度一般都很高
+ * 
+ * Ⅲ 子集问题和组合问题本质上是一样的，无非就是 base case 有一些区别
+ *      形式一、元素无重不可复选，即 nums 中的元素都是唯一的，每个元素最多只能被使用一次（剪枝）
+ *      形式二、元素可重不可复选，即 nums 中的元素可以存在重复，每个元素最多只能被使用一次（排序和剪枝）
+ *      形式三、元素无重可复选，即 nums 中的元素都是唯一的，每个元素可以被使用若干次（删去去重逻辑）
+ * 
+ */
+
+//#region 回溯算法框架
+const result = [], track = []
+// 需要维护走过的「路径」和当前可以做的「选择列表」，
+function backtrack(选择列表) {
+    // 当触发「结束条件」时，将「路径」记入结果集
+    if (满足结束条件) {
+        result.add(路径)
+        return
+    }
+    
+    for (const 选择 in 选择列表) { 
+        做(选择)
+        // 在递归调用之前「做选择」，在递归调用之后「撤销选择」
+        backtrack(路径, 选择列表)
+        撤销(选择)
+    }
+}
+//#endregion
+
+//#region 例 78.子集 https://leetcode.cn/problems/subsets/ （元素不重复且不可重复选）
 // 输入一个无重复元素的数组 nums，返回 nums 的所有不重复子集。（可以应对无序数组，因为元素无重复）
 //             [ ]
 //      /       |       \
@@ -42,8 +75,9 @@ function subsets(nums) {
     return res
 }
 // console.log(subsets([1,2,3]))
+//#endregion
 
-// 例 77.组合 https://leetcode.cn/problems/combinations （元素唯一且不可重复选）
+//#region 例 77.组合 https://leetcode.cn/problems/combinations （元素不重复且不可重复选）
 // 给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的不重复组合。（等价子集问题，只需要加个base case限制结果即可）
 function combine(n, k) {
     const res = []
@@ -72,8 +106,9 @@ function combine(n, k) {
     return res
 }
 // console.log(combine(3, 2))
+//#endregion
 
-// 例 46.全排列 https://leetcode.cn/problems/permutations （元素唯一且不可重复选）
+//#region 例 46.全排列 https://leetcode.cn/problems/permutations （元素不重复且不可重复选）
 // 给定一个不含重复数字的数组 nums，返回其所有可能的全排列。(每层从头遍历数组，选取未used的数字，直至无数字可选时进行回溯)
 //                     [ ]
 //       /              |             \
@@ -111,8 +146,9 @@ function permute(nums) {
     return res
 }
 // console.log(permute([1,2,3]))
+//#endregion
 
-// 例 90.子集Ⅱ https://leetcode.cn/problems/subsets-ii （元素可重复但不可重复选）
+//#region 例 90.子集Ⅱ https://leetcode.cn/problems/subsets-ii （元素可重复但不可重复选）
 // 给你一个整数数组 nums，其中可能包含重复元素，请你返回该数组所有可能的子集。
 // 两条值相同的相邻树枝会产生重复, 需要剪枝（与78.子集的区别在于，需要先对数组排序，将相同数字汇聚，然后(剪枝)跳过同层的相邻且相同的数字）
 //             [ ]
@@ -151,8 +187,9 @@ function subsetsWithDup(nums) {
     return res
 }
 // console.log(subsetsWithDup([4, 4, 4, 1, 3]))
+//#endregion
 
-// 例 40.组合总和 https://leetcode.cn/problems/combination-sum-ii （元素可重复但不可重复选）
+//#region 例 40.组合总和 https://leetcode.cn/problems/combination-sum-ii （元素可重复但不可重复选）
 // 给你输入 candidates 和一个目标和 target，从 candidates 中找出中所有和为 target 的组合。
 function combinationSum2(candidates, target) {
     const start = Date.now()
@@ -193,8 +230,9 @@ function combinationSum2(candidates, target) {
 }
 // [14,6,25,9,30,20,33,34,28,30,16,12,31,9,9,12,34,16,25,32,8,7,30,12,33,20,21,29,24,17,27,34,11,17,30,6,32,21,27,17,16,8,24,12,12,28,11,33,10,32,22,13,34,18,12] 27
 // console.log(combinationSum2([10, 1, 2, 7, 6, 1, 5], 8))
+//#endregion
 
-// 例 47.全排列Ⅱ https://leetcode.cn/problems/permutations-ii （元素可重复但不可重复选）
+//#region 例 47.全排列Ⅱ https://leetcode.cn/problems/permutations-ii （元素可重复但不可重复选）
 function permuteUnique(nums) {
     const res = [], used = new Array(nums.length).fill(false), track = []
 
@@ -229,3 +267,36 @@ function permuteUnique(nums) {
     return res
 }
 // console.log(permuteUnique([1,1,3]))
+//#endregion
+
+//#region 例 39.组合总和 https://leetcode.cn/problems/combination-sum （元素不重复但可重复选）
+function combinationSum(candidates, target) {
+    let targetSum = 0
+    const track = [], res = []
+
+    function backtrack(start) {
+        // base case: 目前组合总和等于目标值时保存结果
+        if (targetSum == target) {
+            res.push([...track])
+        }    
+
+        // base case: 目前组合总和大于目标值时停止往下
+        if (targetSum > target) return
+            
+        for (let i = start; i < candidates.length; i++){
+            track.push(candidates[i])
+            targetSum += candidates[i]
+
+            // 下一层从当前索引开始（可重复选）
+            backtrack(i)
+
+            targetSum -= candidates[i]
+            track.pop()
+        }
+    }
+
+    backtrack(0)
+    return res
+}
+// console.log(combinationSum([1,2,3], 3))
+//#endregion
