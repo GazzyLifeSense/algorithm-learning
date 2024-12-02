@@ -92,8 +92,20 @@ class BinaryTree{
     }
 
     // 节点数
-    static count(root) {
+    count() {
+        const root = this.root
+        let nodeCount = 0
+
+        function traverse(root) {
+            if (root == null) return
+            
+            nodeCount++
+            traverse(root.left)
+            traverse(root.right)
+        }
         
+        traverse(root)
+        return nodeCount
     }
 
     // 例 104.二叉树的最大深度 https://leetcode.cn/problems/maximum-depth-of-binary-tree/
@@ -183,6 +195,12 @@ function test() {
     // 前序：124356 、中序：421536、后序：425631
 }
 function test1() {
-    const btree = new BinaryTree([1, 2, 3, 4, null, 5, 6])
-    DFS(btree.root)
+    const binaryTree = new BinaryTree([1, 2, 3, 4, null, 5, 6])
+    DFS(binaryTree.root)
+    BFS(binaryTree.root)
 }
+function test2() {
+    const binaryTree = new BinaryTree([1, 2, 3, 4, null, 5, 6])
+    console.log(`二叉树的节点数：${binaryTree.count()}`)
+}
+test2()
