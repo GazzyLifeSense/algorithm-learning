@@ -7,13 +7,20 @@
  *      比如 回溯算法、BFS 算法、动态规划 本质上也是把具体问题抽象成树结构
  *
  * Ⅲ 根节点：最上方那个没有父节点的节点
- *      父节点：上方直接相连的节点
- *      子节点：每个节点下方直接相连的节点
- *      叶子节点：最下层没有子节点的节点
- *      最大深度/高度：从根节点到最下方叶子节点经过的节点个数
- *      最小深度：从根节点到最近叶子节点的距离
+ *    父节点：上方直接相连的节点
+ *    子节点：每个节点下方直接相连的节点
+ *    叶子节点：最下层没有子节点的节点
+ *    最大深度/高度：从根节点到最下方叶子节点经过的节点个数
+ *    最小深度：从根节点到最近叶子节点的距离
+ *    「直径」长度，就是任意两个结点之间的路径长度；最大「直径」长度即一个节点的左右子树的最大深度之和。
  * 
- * Ⅳ 满二叉树：每一层节点都是满的
+ * Ⅳ 前中后序是遍历二叉树过程中处理每一个节点的三个特殊时间点，绝不仅仅是三个顺序不同的 List
+ *      二叉树的所有问题，就是让你在前中后序位置注入逻辑，思考每一个节点应该做什么
+ *      前序位置的代码在刚刚进入一个二叉树节点的时候执行；
+ *      后序位置的代码在将要离开一个二叉树节点的时候执行；
+ *      中序位置的代码在一个二叉树节点左子树都遍历完，即将开始遍历右子树的时候执行。
+ * 
+ * Ⅴ 满二叉树：每一层节点都是满的
  *      深度h，节点个数为2^h - 1
  *          1
  *         / \
@@ -21,7 +28,7 @@
  *       / \  / \
  *      4   5 6  7
  * 
- * Ⅴ 完全二叉树：每一层的节点都紧凑靠左排列，且除了最后一层，其他每层都必须是满的
+ * Ⅵ 完全二叉树：每一层的节点都紧凑靠左排列，且除了最后一层，其他每层都必须是满的
  *      索引存在明显的规律
  *      完全二叉树的左右子树中，至少有一棵是满二叉树
  *          1
@@ -30,7 +37,7 @@
  *       / \
  *      4   5
  * 
- * Ⅵ 二叉搜索树（Binary Search Tree，BST）：对于树中的每个节点，其左子树的每个节点的值都要小于这个节点的值，右子树的每个节点的值都要大于这个节点的值。
+ * Ⅶ 二叉搜索树（Binary Search Tree，BST）：对于树中的每个节点，其左子树的每个节点的值都要小于这个节点的值，右子树的每个节点的值都要大于这个节点的值。
  *      「左小右大」
  *          7
  *         / \
@@ -49,6 +56,7 @@ class TreeNode{
     }
 }
 
+//#region 二叉树
 class BinaryTree{
     constructor(arr) {
         this.root = null
@@ -82,10 +90,25 @@ class BinaryTree{
         }
         this.root = root
     }
+
+    // 节点数
+    static count(root) {
+        
+    }
+
+    // 例 104.二叉树的最大深度 https://leetcode.cn/problems/maximum-depth-of-binary-tree/
+    static maxDepth(root) {
+        
+    }
+
+    // 例 543.二叉树的直径 https://leetcode.cn/problems/diameter-of-binary-tree
+    static maxDiameter(root) {
+        
+    }
 }
+//#endregion
 
-// 递归遍历 DFS(Deep First Search, 深度优先遍历)
-
+//#region 递归遍历 DFS(Deep First Search, 深度优先遍历)
 function DFS(root) {
     let preArr = [], midArr = [], postArr = []
 
@@ -112,8 +135,9 @@ function DFS(root) {
     console.log(`前序：${preArr}; 中序：${midArr}; 后序：${postArr}`)
     return
 }
+//#endregion
 
-// 层序遍历 BFS(Breath First Search, 广度优先遍历)  借助队列
+//#region 层序遍历 BFS(Breath First Search, 广度优先遍历)  借助队列
 function BFS(root) {
     if (root == null) return
     const q = []
@@ -137,6 +161,7 @@ function BFS(root) {
     
     return depth
 }
+//#endregion
 
 /* TEST CODE */
 function test() {
