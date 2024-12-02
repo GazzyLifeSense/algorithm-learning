@@ -12,13 +12,14 @@
  *    叶子节点：最下层没有子节点的节点
  *    最大深度/高度：从根节点到最下方叶子节点经过的节点个数
  *    最小深度：从根节点到最近叶子节点的距离
- *    「直径」长度，就是任意两个结点之间的路径长度；最大「直径」长度即一个节点的左右子树的最大深度之和。
+ *    「直径」长度，就是任意两个结点之间的路径长度
  * 
  * Ⅳ 前中后序是遍历二叉树过程中处理每一个节点的三个特殊时间点，绝不仅仅是三个顺序不同的 List
  *      二叉树的所有问题，就是让你在前中后序位置注入逻辑，思考每一个节点应该做什么
- *      前序位置的代码在刚刚进入一个二叉树节点的时候执行；
- *      后序位置的代码在将要离开一个二叉树节点的时候执行；
- *      中序位置的代码在一个二叉树节点左子树都遍历完，即将开始遍历右子树的时候执行。
+ *      前中后序位置的代码，能力依次增强：
+    *      前序位置的代码在刚刚进入一个二叉树节点的时候执行，只能从参数中获取父节点传递的数据；
+    *      中序位置的代码在一个二叉树节点左子树都遍历完，即将开始遍历右子树的时候执行，能获取父节点和左子树传递的数据；
+    *      后序位置的代码在将要离开一个二叉树节点的时候执行，能获取父节点和左右子树传递的数据；
  * 
  * Ⅴ 满二叉树：每一层节点都是满的
  *      深度h，节点个数为2^h - 1
@@ -132,7 +133,25 @@ class BinaryTree{
 
     // 例 543.二叉树的直径 https://leetcode.cn/problems/diameter-of-binary-tree
     maxDiameter() {
-        
+        const root = this.root
+
+        let maxDiameter = 0;
+
+        const maxDepth = function(root) {
+            if (root === null) {
+                return 0;
+            }
+            let leftMax = maxDepth(root.left);
+            let rightMax = maxDepth(root.right);
+            // 后序位置，计算最大直径
+            let myDiameter = leftMax + rightMax;
+            maxDiameter = Math.max(maxDiameter, myDiameter);
+
+            return 1 + Math.max(leftMax, rightMax);
+        }
+
+        maxDepth(root);
+        return maxDiameter;
     }
 }
 //#endregion
@@ -217,8 +236,15 @@ function test1() {
     BFS(binaryTree.root)
 }
 function test2() {
-    const binaryTree = new BinaryTree([1, 2, 3, 4, null, 5, 6])
-    console.log(`二叉树的节点数：${binaryTree.count()}`)
-    console.log(`二叉树的最大深度：${binaryTree.maxDepth()}`)
+    //       1
+    //      /
+    //     2
+    //    / \
+    //   3   5
+    //  /   / \
+    // 1   4   2
+    const binaryTree = new BinaryTree([1, 2, null, 3, 5, 1, null, 4, 2])
+    console.log(`二叉树的节点数：${binaryTree.count()}`) // 7
+    console.log(`二叉树的最大深度：${binaryTree.maxDepth()}`) // 4
+    console.log(`二叉树的最大直径：${binaryTree.maxDiameter()}`) // 4
 }
-test2()
