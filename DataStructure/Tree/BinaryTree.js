@@ -109,12 +109,29 @@ class BinaryTree{
     }
 
     // 例 104.二叉树的最大深度 https://leetcode.cn/problems/maximum-depth-of-binary-tree/
-    static maxDepth(root) {
-        
+    maxDepth() {
+        const root = this.root
+        let maxRes = 0, maxCur = 0
+
+        function traverse(root) {
+            if (root == null) return
+            
+            maxCur++
+            // 到叶子节点时更新最大深度
+            if (root.left == null && root.right == null) {
+                maxRes = Math.max(maxRes, maxCur)
+            }
+            traverse(root.left)
+            traverse(root.right)
+            maxCur--
+        }
+
+        traverse(root)
+        return maxRes
     }
 
     // 例 543.二叉树的直径 https://leetcode.cn/problems/diameter-of-binary-tree
-    static maxDiameter(root) {
+    maxDiameter() {
         
     }
 }
@@ -202,5 +219,6 @@ function test1() {
 function test2() {
     const binaryTree = new BinaryTree([1, 2, 3, 4, null, 5, 6])
     console.log(`二叉树的节点数：${binaryTree.count()}`)
+    console.log(`二叉树的最大深度：${binaryTree.maxDepth()}`)
 }
 test2()
