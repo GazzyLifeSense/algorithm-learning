@@ -115,3 +115,49 @@ function shellSort(nums) {
 }
 // console.log(shellSort([1,3,0,7,6,5,1,2,3,2]))
 //#endregion
+
+//#region 快速排序: 妙用二叉树前序位置，（递归）
+function quickSort(nums) {
+    
+    function sort(nums, lo, hi) {
+        if (lo >= hi) return
+        
+        // 获取切分点
+        const p = partition(nums, lo, hi)
+
+        // 对左右侧数组进行排序
+        sort(nums, lo, p - 1)
+
+        sort(nums, p + 1, hi)
+    }
+
+    // 获取支点索引，将小于其的节点放左侧、大于其的节点放右侧
+    function partition(nums, lo, hi) {
+        // 支点
+        const pivot = nums[lo]
+        let i = lo, j = hi
+        while (i <= j) {
+            // 找到值大于支点的索引
+            while (i < hi && nums[i] <= pivot) i++
+            // 找到值小于等于支点的索引
+            while (j > lo && nums[j] > pivot) j--
+            if (i >= j) break
+            [nums[i], nums[j]] = [nums[j], nums[i]]
+        }
+        [nums[lo], nums[j]] = [nums[j], nums[lo]]
+        return j
+    }
+    sort(nums, 0, nums.length - 1)
+    return nums
+}
+//     sort(130765) p=1
+//       /      \
+//     [0]   sort(3765) p=0
+//             /     \
+//            []    sort(756)
+//                    \
+//                  sort(56)
+//                    /  \
+//                   []  [6]
+console.log(quickSort([1,3,0,7,6,5]))
+//#endregion
