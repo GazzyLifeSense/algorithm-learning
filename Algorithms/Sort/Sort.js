@@ -10,6 +10,7 @@
  *              直至h减小到1成为插入排序，此时数组已部分有序，所以速度会快很多。（最坏O(n^1.5) 原地排序 不稳定性[相同数字在不同子数组中进行交互位置时相对位置可能发生变化]）
  *    快速排序（分治）: 在一个无序的序列中选取一个任意的基准元素pivot，利用pivot将待排序的序列分成两部分，前面部分元素均小于或等于基准元素，后面部分均大于或等于基准元素，
  *              然后采用递归的方法分别对前后两部分重复上述操作，直到将无序序列排列成有序序列。（平均O(nlog2n) 最坏O(n²) 原地排序 不稳定性[121->112], 元素交换时相对位置可能发生变化）
+ *    归并排序（分治）: 基于分治思想将数组划分段排序后再合并（所有情况O(nlog2n) 非原地排序 空间O(n) 不稳定性）
  */
 
 //#region 选择排序: 每次都去遍历选择最小的元素。
@@ -156,4 +157,72 @@ function quickSort(nums) {
     return nums
 }
 // console.log(quickSort([3,3,5,10,6,8,9,3,1,4]))
+//#endregion
+
+//#region 归并排序: 基于分治思想将数组划分段排序后再合并
+// （递归法）妙用二叉树后序位置，在二叉树遍历的后序位置将两个有序数组合并成一个有序数组。
+//              152273
+//             /     \
+//           152     273
+//           / \     /  \
+//          15  2   27   3
+//          /\  |   /\   |
+//         1  5 |  2  7  |
+//          \/  |   \/   |
+//          15  2   27   3
+//            \/      \/
+//            125     237
+//               \  /
+//              12237
+function mergeSort(nums) {
+    let temp = new Array(nums.length)
+
+    function sort(nums, left, right) {
+        // 单个元素不排序
+        if (left == right) return
+        let mid = Math.floor((right - left) / 2 + left)
+
+        // 将左右数组分别排序
+        sort(nums, left, mid)
+        sort(nums, mid + 1, right)
+
+        // 后序位置合并数组
+        
+        merge(nums, left, mid, right)
+    }
+    
+    // 将两个有序数组合并为一个有序数组
+    function merge(nums, left, mid, right) {
+        // cur指当前temp数组索引
+        let i = left, j = mid + 1, cur = left
+
+        while (cur <= right) {
+            // 左侧数组已排序
+            if (i === mid + 1) {
+                temp[cur] = nums[j++]
+            }
+            // 右侧数组已排序
+            else if (j === right + 1) {
+                temp[cur] = nums[i++]
+            }
+            // 左侧小于右侧时，将左侧元素插入数组
+            else if (nums[i] < nums[j]) {
+                temp[cur] = nums[i++]
+            }
+            // 右侧小于左侧时，将右侧元素插入数组
+            else if (nums[i] >= nums[j]) {
+                temp[cur] = nums[j++]
+            }
+            cur++
+        }
+
+        // 将排序后的temp数组拷贝到原数组
+        while (left <= right) {
+            nums[left] = temp[left++]
+        }
+    }
+    sort(nums, 0, nums.length - 1)
+    return nums
+}
+// console.log(mergeSort([1,5,2,2,7,3]))
 //#endregion
