@@ -21,9 +21,14 @@
  *            ②、将堆顶元素与末尾元素进行交换，将最大元素“沉”到数组末端；
  *            ③、重新调整剩下结构，使其满足堆定义，然后继续交换堆顶元素与当前末尾元素，反复执行调整+交换步骤，直到整个序列有序。
  *            （所有情况O(nlogn) 原地排序 不稳定性）
+ * 
+ * Ⅷ 计数排序：通过统计每一个数字出现的次数，并把它映射到映射数组特定下标上，再遍历映射的数组使原数组有序
+ *          [绝对映射]：映射到与数值相同的下标上；[相对映射]：映射到数值-min的下标上（避免空间浪费）
+ *          只适合元素较为集中的数组排序，元素分散时内存消耗大; 只支持整数排序
+ *          （所有情况O(n) 原地排序 空间O(max-min+1) 不稳定性）
  */
 
-//#region 选择排序: 每次都去遍历选择最小的元素。
+//#region 选择排序: 每次都去遍历选择最小的元素。（无关是否有序 O(n²) 原地排序 不稳定）
 function selectSort(arr) {
     // 目前需要排序的索引
     let sortedIndex = 0
@@ -41,7 +46,7 @@ function selectSort(arr) {
 // console.log(selectSort([1,3,0,7,6,5]))
 //#endregion
 
-//#region 冒泡排序: 每个元素根据自身大小一点一点向数组的一侧移动。
+//#region 冒泡排序: 每个元素根据自身大小一点一点向数组的一侧移动。（最坏O(n²) 有序可提前终止 原地排序 稳定性）
 function bubbleSort(arr) {
     const n = arr.length
     let sortedIndex = 0
@@ -64,7 +69,7 @@ function bubbleSort(arr) {
 // console.log(bubbleSort([1,3,0,7,6,5]))
 //#endregion
 
-//#region 插入排序: 通过构建有序序列，将未排序的数据逐个插入到已排序的序列中。
+//#region 插入排序: 通过构建有序序列，将未排序的数据逐个插入到已排序的序列中。（最坏O(n²) 有序接近O(n) 综合性能优于冒泡 原地排序 稳定性）
 function insertSort(nums) {
     const n = nums.length
     // 当前需要排序的索引
@@ -90,6 +95,7 @@ function insertSort(nums) {
 
 //#region 希尔排序: 先对数组进行排序使之成为"h-有序"的，即数组中任意相距h的元素都是有序的，
 //                  之后再减小h值再次排序，直至h减小到1成为插入排序，此时数组已部分有序，所以速度会快很多。
+//                 （最坏O(n^1.5) 原地排序 不稳定性[相同数字在不同子数组中进行交互位置时相对位置可能发生变化]）
 function shellSort(nums) {
     let n = nums.length;
     // 把生成函数换成 (3^k - 1) / 2
@@ -131,6 +137,7 @@ function shellSort(nums) {
 
 //#region 快速排序: 在一个无序的序列中选取一个任意的基准元素pivot，利用pivot将待排序的序列分成两部分，前面部分元素均小于或等于基准元素，后面部分均大于或等于基准元素，
 //                 然后采用递归的方法分别对前后两部分重复上述操作，直到将无序序列排列成有序序列。
+//                （平均O(nlogn) 最坏O(n²) 原地排序 不稳定性[121 -> 112], 元素交换时相对位置可能发生变化）
 // （递归法）妙用二叉树前序位置，在二叉树遍历的前序位置将一个元素排好位置，然后递归地将剩下的元素排好位置。
 function quickSort(nums) {
     
@@ -169,7 +176,7 @@ function quickSort(nums) {
 // console.log(quickSort([3,3,5,10,6,8,9,3,1,4]))
 //#endregion
 
-//#region 归并排序: 基于分治思想将数组划分段排序后再合并
+//#region 归并排序: 基于分治思想将数组划分段排序后再合并（所有情况O(nlogn) 非原地排序 空间O(n) 不稳定性）
 // （递归法）妙用二叉树后序位置，在二叉树遍历的后序位置将两个有序数组合并成一个有序数组。
 //              152273
 //             /     \
@@ -240,6 +247,7 @@ function mergeSort(nums) {
 //#region 堆排序: ①、将无序序列构建成一个堆，根据升序降序需求选择大顶堆或小顶堆；
 //          ②、将堆顶元素与末尾元素进行交换，将最大元素“沉”到数组末端；
 //          ③、重新调整剩下结构，使其满足堆定义，然后继续交换堆顶元素与当前末尾元素，反复执行调整+交换步骤，直到整个序列有序。
+//         （所有情况O(nlogn) 原地排序 不稳定性）
 function heapSort(arr) {
     // [构造核心]（冒）：从最后一个非叶子节点开始，将无序序列构建成一个大顶堆（升序）或小顶堆（降序）
     for (let i = Math.floor(arr.length / 2 - 1); i >= 0; i--) {
@@ -282,10 +290,43 @@ function adjustHeap(arr, i, length) {
     //当for循环结束后，我们已经将以i为父节点的树的最大值，放在了最顶（局部）
     arr[i] = temp; // 将temp的值放到调整后的位置
 }
-console.log(heapSort([4, 6, 3, 5, 9]))
+// console.log(heapSort([4, 6, 3, 5, 9]))
 //     4                   4                   9                     9                4                   4
 //    / \     6 < 9       / \     4 < 9       / \       4 < 6       / \     ②沉底    / \    ③剩下部分    / \
 //   6   3 ------------> 9   3  -------->    4   3   ------------> 6   3  --------> 6   3  ---------->  6   3
 //  / \      9无左节点  / \                 / \        4有子节点  / \              / \      重复步骤   /
 // 5   9       跳出    5   6               5   6          继续   5   4            5   9               5
+//#endregion
+
+//#region 计数排序：通过统计每一个数字出现的次数，并把它映射到映射数组特定下标上，再遍历映射的数组使原数组有序
+//        [绝对映射]：映射到与数值相同的下标上；[相对映射]：映射到数值-min的下标上（避免空间浪费）
+//        只适合元素较为集中的数组排序，元素分散时内存消耗大; 只支持整数排序
+//        （所有情况O(n) 原地排序 空间O(max-min+1) 不稳定性）
+function countSort(nums) {
+    if (nums.length < 1) return []
+    
+    let max = nums[0], min = nums[0]
+    for (let i = 1; i < nums.length; i++){
+        if (nums[i] > max) max = nums[i]
+        if (nums[i] < min) min = nums[i]
+    }
+
+    // 相对映射：开辟映射数组的空间为最大值-最小值+1，避免空间浪费 
+    const Size = max - min + 1, CountArr = new Array(Size).fill(0)
+    for (let i = 0; i < nums.length; i++){
+        CountArr[nums[i] - min]++
+    }
+
+    // 遍历映射数组，覆盖原数组（原地排序）
+    let cur = 0
+    for (let i = 0; i < CountArr.length; i++){
+        while (CountArr[i] > 0) {
+            nums[cur++] = i + min
+            CountArr[i]--
+        }
+    }
+
+    return nums
+}
+// console.log(countSort([103,105,102,100,109]))
 //#endregion
