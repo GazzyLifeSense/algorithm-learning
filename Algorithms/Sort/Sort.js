@@ -26,6 +26,11 @@
  *          [绝对映射]：映射到与数值相同的下标上；[相对映射]：映射到数值-min的下标上（避免空间浪费）
  *          只适合元素较为集中的数组排序，元素分散时内存消耗大; 只支持整数排序
  *          （所有情况O(n) 原地排序 空间O(max-min+1) 不稳定性）
+ * 
+ * Ⅸ 桶排序：利用函数的映射关系把待排序数组中的元素分配到若干个桶中，对每个桶中的元素分别进行排序，最后再把这些桶中的元素按顺序合并起来。
+ *            数学基础：分开排序的时间复杂度总和是小于整体排序的，（假设有正整数n，且n=n1+n2+...+nk, 那么n²>=n1²+n2²+...+nk²，类比正方形面积）
+ *            如果桶排序将待排序元素分配到尽可能多的桶中（k 尽可能大），即每个桶至多只有一个元素时，桶排序就转化成了计数排序，其复杂度也将降低到O(n)。
+ *           （时间、空间复杂度、稳定性取决于桶内排序算法）
  */
 
 //#region 选择排序: 每次都去遍历选择最小的元素。（无关是否有序 O(n²) 原地排序 不稳定）
@@ -329,4 +334,44 @@ function countSort(nums) {
     return nums
 }
 // console.log(countSort([103,105,102,100,109]))
+//#endregion
+
+//#region 桶排序：利用函数的映射关系把待排序数组中的元素分配到若干个桶中，对每个桶中的元素分别进行排序，最后再把这些桶中的元素按顺序合并起来。
+//                数学基础：分开排序的时间复杂度总和是小于整体排序的，（假设有正整数n，且n=n1+n2+...+nk, 那么n²>=n1²+n2²+...+nk²，类比正方形面积）
+//                如果桶排序将待排序元素分配到尽可能多的桶中（k 尽可能大），即每个桶至多只有一个元素时，桶排序就转化成了计数排序，其复杂度也将降低到O(n)。
+//               （最好(有序情况下)时间复杂度O(n)，最坏O(n²)、桶内原地排序时空间复杂度O(n+k) 、稳定性取决于桶内排序算法）
+//  步骤：①初始化桶：确定桶的数量和每个桶的数据范围，每个桶尽可能均匀包含一部分数据
+//        ②分配元素：遍历待排序序列，将元素放入对应桶中
+//        ③桶内排序：使用其它排序算法进行排序（一般使用插入排序较稳定）
+//        ④合并桶
+function bucketSort(nums, bucketSize) {
+    if(nums.length < 1) return []
+    
+    // 计算最大值、最小值
+    let max = nums[0], min = nums[0], res = []
+    for (let i = 0; i < nums.length; i++){
+        if (nums[i] > max) max = nums[i]
+        if (nums[i] < min) min = nums[i]
+    }
+
+    // 初始化桶 
+    const BucketCount = Math.ceil((max - min + 1) / bucketSize) // 桶数量
+    const BucketArr = new Array(BucketCount).fill(0).map(()=>new Array())
+    
+    // 分配元素
+    for (let i = 0; i < nums.length; i++){
+        let bucketIndex = Math.floor((nums[i] - min) / bucketSize)
+        BucketArr[bucketIndex].push(nums[i])
+    }
+
+    // 合并桶
+    for (let i = 0; i < BucketArr.length; i++){
+        // 内部一般使用插入排序（较稳定，但也可以使用其它排序算法）
+        insertSort(BucketArr[i])
+        res = res.concat(...BucketArr[i])
+    }
+
+    return res
+}
+console.log(bucketSort([42, 32, 33, 52, 37, 47, 51, 46, 41, 43], 5))
 //#endregion
